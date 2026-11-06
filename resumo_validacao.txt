@@ -1,0 +1,13 @@
+Python: C:\Users\leona\AppData\Local\Programs\Python\Python314\python.exe (3.14.0)
+  streamlit: ok
+  requests: ok
+  pypdf: ok
+  plotly: ok
+  sqlalchemy: ok
+  psycopg: ok
+  reportlab: ok
+  dotenv: ok
+  pytest: ok
+  pdfplumber: ok
+validar_deepseek.py: código de saída 1
+pytest: código de saída 0 — 247 passed in 941.56s (0:15:41)

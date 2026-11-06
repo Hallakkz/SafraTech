@@ -1,0 +1,128 @@
+# Validação real da DeepSeek — EduAgro AI (05/11/2026 15:20)
+
+## 1. Configuração (.env)
+   modelo deepseek-chat · https://api.deepseek.com · chave carregada (35 caracteres)
+   ✅ DEEPSEEK_API_KEY carregada do .env
+   ✅ formato da chave (prefixo sk-)
+
+## 2. Conexão, saldo e chamada mínima ao modelo
+   status: DeepSeek conectada e com saldo disponível. | saldo: 6.97 USD | detalhes: {'resposta_teste': 'OK', 'modelo_resposta': 'deepseek-flash', 'duracao_s': 1.26}
+   ✅ API acessível, conta com saldo e modelo respondendo
+
+## 3. Tutor Agro com os bancos do SafraTech (perguntas reais)
+   bancos consultáveis: solo_database, nutricao_database, plantio_database, pecuaria_compra_database, pecuaria_desempenho_database, pecuaria_rentabilidade_database
+   ✅ os 6 bancos do SafraTech acessíveis pelo tutor
+
+### Como interpretar o fósforo na análise de solo?
+   referências recuperadas: [S1] Fósforo disponível (Mehlich-1) (solo_database); [S2] Fósforo remanescente (P-rem) (solo_database); [S3] Fósforo (P) (solo_database); [S4] Fósforo (P) (solo_database); [S5] Criterio interpretacao — Todos (nutricao_database)
+   ✅ referência do banco solo_database*
+   resposta: 4111 caracteres em 8.6 s · tokens entrada/saída: 3332/1467
+   ✅ resposta organizada nas seções didáticas (bancos / explicação / verificação)
+   ✅ cita referências reais do contexto: ['S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7']
+   ✅ nenhuma citação inexistente (inválidas: [])
+   > ### 📚 O que os bancos do SafraTech informam
+   > 
+   > **1. O resultado depende do método de extração e da base de expressão.** O Manual da Embrapa calcula o P disponível (Mehlich-1) por absorbância × fator de diluição × 10, expressando em mg/dm³ quando se mede 10 cm³ de solo [S1]. Resultados por massa (mg/kg) e por volume (mg/dm³) **não podem ser misturados sem conversão pela densidade** [S6].
+   > 
+   > **2. A tabela de interpretação é específica de região, método e sistema de cultivo.** Para o Cerrado, culturas anuais, 0–20 cm, **método da resina**, há duas tabelas distintas:
+   > 
+   > | Sistema | Muito baixo | Baixo | Médio | Adequado | Alto |
+   > |---|---|---|---|---|---|
+   > | Irrigado [S3] | 0–8 | 9–14 | 15–20 | 21–35 | …
+
+### Como calcular o ganho médio diário de um bovino?
+   referências recuperadas: [S1] Ganho médio diário (GMD) (pecuaria_desempenho_database); [S2] Ganho médio diário (GMD) (pecuaria_desempenho_database); [S3] Ganho médio diário (GMD) (pecuaria_desempenho_database); [S4] Ganho médio diário (GMD) (pecuaria_desempenho_database); [S5] Ganho médio diário (GMD) (pecuaria_desempenho_database)
+   ✅ referência do banco pecuaria_desempenho_database*
+   resposta: 4863 caracteres em 10.9 s · tokens entrada/saída: 3570/1580
+   ✅ resposta organizada nas seções didáticas (bancos / explicação / verificação)
+   ✅ cita referências reais do contexto: ['D1', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6']
+   ✅ nenhuma citação inexistente (inválidas: [])
+   > ### 📚 O que os bancos do SafraTech informam
+   > 
+   > **Fórmula registrada** [S1]:
+   > $$\text{gmd\_kg\_dia} = \frac{\text{peso\_final\_kg} - \text{peso\_inicial\_kg}}{\text{dias}}$$
+   > Variáveis: peso inicial, peso final e dias entre pesagens; unidade do resultado: kg/dia. A fonte registra pesagens no início e no fim de cada ciclo de pastejo [S1].
+   > 
+   > **Valores de referência de GMD** (Nelore comercial, Terenos/MS, Embrapa Gado de Corte, 2000) — há outras faixas no banco; as mais úteis para comparar:
+   > 
+   > | Condição | Categoria | GMD | Trecho |
+   > |---|---|---|---|
+   > | Recria nas águas, capim-tanzânia adubado com ureia, pastejo rotacionado (7 dias pastejo/35 descanso) | macho | 0,559 kg/cab/dia | [S3] |
+   > | Mesma condiçã…
+
+### Como avaliar a rentabilidade de um lote de gado?
+   referências recuperadas: [S1] Lucro (LUCRO) (pecuaria_compra_database); [S2] Margem operacional (MARGEM_OPERACIONAL) (pecuaria_compra_database); [S3] Margem bruta (MARGEM_BRUTA) (pecuaria_compra_database); [S4] Quais são os principais controles econômicos a exe (pecuaria_compra_database); [S5] Margem operacional (Receita - Custo operacional) (pecuaria_compra_database)
+   ✅ referência do banco pecuaria_*
+   resposta: 4544 caracteres em 9.6 s · tokens entrada/saída: 5142/1565
+   ✅ resposta organizada nas seções didáticas (bancos / explicação / verificação)
+   ✅ cita referências reais do contexto: ['D1', 'D4', 'S1', 'S2', 'S3', 'S4', 'S5', 'S6', 'S7']
+   ✅ nenhuma citação inexistente (inválidas: [])
+   > ### 📚 O que os bancos do SafraTech informam
+   > 
+   > A avaliação de rentabilidade na pecuária de corte é feita por **três indicadores em cascata**, cada um incorporando mais custos [S4]:
+   > 
+   > | Indicador | Fórmula (conforme o banco) | O que desconta |
+   > |---|---|---|
+   > | **Margem bruta** | $\text{receita} - \text{despesas (desembolsos/COE)}$ [S3] | só o desembolso |
+   > | **Margem operacional** | $\text{receita} - (\text{despesas} + \text{depreciações} + \text{pró-labore})$ [S2] | desembolso + depreciação + pró-labore |
+   > | **Lucro** | $\text{receita} - \text{custo total}$ (despesas, depreciações, pró-labore e juros) [S1] | tudo, inclusive custo de oportunidade/juros |
+   > 
+   > A Embrapa recomenda que todo produtor contr…
+
+### O que é o Zoneamento Agrícola de Risco Climático?
+   referências recuperadas: [S1] Critério de aptidão do ZARC (plantio_database); [S2] Uso do ZARC (plantio_database); [S3] Pode-se usar o fosfato monoamônico (MAP) agrícola  (pecuaria_desempenho_database); [S4] Classificação de ciclo por soma térmica (U.C. entr (plantio_database)
+   ✅ referência do banco plantio_database*
+   resposta: 3611 caracteres em 7.7 s · tokens entrada/saída: 2213/1130
+   ✅ resposta organizada nas seções didáticas (bancos / explicação / verificação)
+   ✅ cita referências reais do contexto: ['S1', 'S2', 'S4']
+   ✅ nenhuma citação inexistente (inválidas: [])
+   > ### 📚 O que os bancos do SafraTech informam
+   > 
+   > - O ZARC foi iniciado em **1996** e estima, **por decêndio**, a probabilidade de ocorrência de condições climáticas adversas; um município é considerado **apto** quando há épocas de semeadura com possibilidade de êxito de **80 % (8 em 10 anos)**, ou seja, risco ≤ 20 % [S1].
+   > - O zoneamento é feito **por UF**, com base nas estações climatológicas de cada estado [S1].
+   > - **Não garante sucesso**: é um estudo de **risco**, não de produtividade [S1].
+   > - As regiões indicadas e os períodos de semeadura devem ser consultados no ZARC (MAPA); **semear fora do período do ZARC inviabiliza o seguro** e aumenta os riscos [S2].
+   > - Para o milho, a classificação de ci…
+
+## 3c. Busca na internet (Tavily)
+   Tavily · chave carregada · até 5 páginas por busca
+   [somente internet] “Como calcular o ganho médio diário de um bovino?” → [W1] hedgeagro.com.br; [W2] pontaagro.com; [W3] youtube.com; [W4] rehagro.com.br; [W5] youtube.com
+   ✅ modo padrão “somente internet”: só páginas da internet
+   ✅ resposta cita só a internet: ['W1', 'W2', 'W3', 'W4', 'W5'] (inválidas: [])
+   > ### 🔗 O que a internet informa (fontes externas, não verificadas pelo SafraTech)
+   > 
+   > Nesta pergunta os bancos do SafraTech não foram consultados — respondo apenas com as páginas [W#], que **não foram verificadas** pelo SafraTech. Confirme os valores antes de usar.
+   > 
+   > - **Fórmula do GMD:** divide-se o ganho total de peso pelo número de dias considerados; o GMD é o ganho médio por dia [W1] (hedgeagro.com.br).
+   > - **Fórmula explícita:** $\text{GMD} = (\text{peso final} - \text{peso inicial}) \div \text{dias entre as pesagens}$ [W2] (pontaagro.com).
+   > - **Exemplo numérico:** animal que entra com 300 kg e c…
+   ✅ [modo bancos] pergunta coberta pelos bancos NÃO consulta a internet
+   “O que é agricultura regenerativa?” → bancos: 0 · internet: [W1] croplifebrasil.org; [W2] agro.insper.edu.br; [W3] eos.com; [W4] youtube.com; [W5] embrapa.br
+   aviso: Nada encontrado nos bancos do SafraTech — 🔗 5 página(s) da internet consultada(s) (fontes externas, não verificadas pelo SafraTech).
+   ✅ pergunta fora dos bancos consulta a internet e traz páginas com link
+   ✅ resposta separa a seção “🔗 O que a internet informa”
+   ✅ cita as páginas da internet corretamente: ['W1', 'W2', 'W3', 'W4', 'W5'] (inválidas: [])
+   > ### 📚 O que os bancos do SafraTech informam
+   > 
+   > Os bancos do SafraTech e a Biblioteca **não têm referência cadastrada** sobre agricultura regenerativa (nem conceito, nem práticas, nem indicadores). Tudo o que segue vem de páginas da internet, não verificadas pela plataforma. Se você tiver material técnico sobre o tema (artigos, boletins, normas), vale cadastrá-lo na Biblioteca para consultas futuras.
+   > 
+   > ### 🔗 O que a internet informa (fontes externas, não verificadas pelo SafraTech)
+   > 
+   > - **Definição holística:** é uma abordagem agrícola que busca restaurar e melhorar a saúde ecológica, a biodiversida…
+   ✅ chave inválida do Tavily tratada: “A chave do Tavily foi recusada (inválida ou expirada). Verifique TAVILY_API_KEY no .env.”
+
+## 4. Geração real de exercícios a partir dos bancos
+   ✅ 3 questão(ões) válida(s) com referência real; 0 descartada(s)
+   - [multipla_escolha] Sobre a medição do rendimento de carcaça de bovinos, assinale a alternativa correta. → resposta: B · refs: ['S1', 'S6', 'S7']
+   - [verdadeiro_falso] O rendimento de carcaça é constante entre todos os animais abatidos, pois depende apenas do peso vivo. → resposta: Falso · refs: ['S3', 'S7']
+   - [pratica] Situação hipotética de estudo: um boi apresentou peso vivo de 468 kg antes do abate e carcaça quente de 255,06 kg. Calcu → resposta: 54,5 % · refs: ['S1', 'S4', 'S5', 'S8']
+
+## 5. Correção real de resposta aberta
+   ✅ resposta correta reconhecida (pontuação 1.00) — Excelente! Você explicou corretamente o cálculo do rendimento de carcaça (peso da carcaça dividido pelo peso vivo, multi
+
+## 6. Tratamento de erro real (chave inválida)
+   ✅ HTTP 401 tratado como chave inválida: “A chave da API DeepSeek foi recusada (chave inválida ou revogada). Verifique DEEPSEEK_API_KEY no .env.”
+
+## Resultado: ✅ APROVADO
+
+Relatório salvo em C:\Users\leona\OneDrive\Desktop\SAFRATECH\dados_eduagro\validacao_deepseek.md

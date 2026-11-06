@@ -1,0 +1,30 @@
+max_tokens=4000 fim=stop saida=1718 chars=4908
+
+30) [S7]. Consultando a tabela: 15 mg/dm³ cai em **12,1–18 → Adequado** [S7].
+
+Se o mesmo 15 mg/dm³ fosse lido na tabela por sistema: irrigado → **15–20 = Médio** [S3]; sequeiro → **15–20 = Adequado** [S4]. **Mesmo número, três classificações diferentes** — porque método e condição mudaram.
+
+---
+
+### ⚠️ Erros comuns
+
+1. Comparar resultado de **Resina** com tabela de **Mehlich-1** (ou vice-versa) — os extratores não são intercambiáveis.
+2. Misturar **mg/kg e mg/dm³** sem converter pela densidade [S6].
+3. Usar tabela de Cerrado/culturas anuais para outra região ou cultura sem verificar aplicabilidade [S3][S4][S7].
+4. Ignorar o **P-rem** e classificar só pelo teor bruto, superestimando ou subestimando a disponibilidade [S7].
+
+---
+
+### ✅ Verifique seu aprendizado
+
+1. Por que um mesmo teor de 8 mg/dm³ pode ser "adequado" num solo e "muito baixo" em outro, segundo [S7]?
+2. Qual a diferença de base entre mg/kg e mg/dm³ e por que isso importa na interpretação [S6]?
+3. Em que condição o P-rem deve ser determinado, segundo a nota de [S7]?
+
+---
+
+### ➡️ Para continuar
+
+- **Exercício:** pegue um laudo real (ou fictício) com método, P e P-rem e classifique-o nas três tabelas do contexto; explique as divergências.
+- **Próximo assunto:** relação entre P-rem, textura e dose de correção fosfatada — e por que solos argilosos do Cerrado exigem manejo diferente.
+- Posso explicar **"mais simples"** (só o fluxo de decisão) ou **"mais aprofundado"** (dinâmica de adsorção e pools de P). Qual prefere?
