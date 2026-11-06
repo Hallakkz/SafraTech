@@ -279,7 +279,7 @@ except TypeError:
 except Exception:
     pass
 
-st.title("🌱 SafraTech — Sistema Simples de Plantio")
+st.title("🌱 SafraTech — Sistema Simples de Decisão para o Plantio")
 area = st.session_state.setdefault("area", "agricultura")
 
 if area == "pecuaria":
