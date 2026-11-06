@@ -19,16 +19,12 @@ def render(usuario: dict, nivel: str) -> None:
     uid = usuario["id"]
     r = pg.resumo(uid)
     st.caption(f"Progresso do perfil **{usuario['nome']}** (salvo neste computador).")
-    c = st.columns(4)
-    c[0].metric("Cursos iniciados", r["cursos_iniciados"])
-    c[1].metric("Cursos concluídos", r["cursos_concluidos"])
-    c[2].metric("Aulas concluídas", r["aulas_concluidas"])
-    c[3].metric("Perguntas ao tutor", r["perguntas_tutor"])
-    c = st.columns(4)
-    c[0].metric("Exercícios realizados", r["exercicios"])
-    c[1].metric("Acerto médio", f"{r['acertos_pct']:g}%" if r["exercicios"] else "—")
-    c[2].metric("Avaliações", r["avaliacoes"])
-    c[3].metric("Média das notas", f"{r['media_notas']:g}%" if r["avaliacoes"] else "—")
+    c = st.columns(5)
+    c[0].metric("Perguntas ao tutor", r["perguntas_tutor"])
+    c[1].metric("Exercícios realizados", r["exercicios"])
+    c[2].metric("Acerto médio", f"{r['acertos_pct']:g}%" if r["exercicios"] else "—")
+    c[3].metric("Avaliações", r["avaliacoes"])
+    c[4].metric("Média das notas", f"{r['media_notas']:g}%" if r["avaliacoes"] else "—")
 
     cat = pg.por_categoria(uid)
     st.subheader("📈 Progresso por categoria")
@@ -75,15 +71,6 @@ def render(usuario: dict, nivel: str) -> None:
         st.button("🤖 Revisar com o Tutor Agro", key="edu_prog_revisar", on_click=enviar_ao_tutor,
                   args=(f"Quero revisar estes assuntos em que errei exercícios: {', '.join(revisar[:5])}. Explique os pontos "
                         f"principais e me dê um exemplo de cada.",))
-
-    st.subheader("📘 Meus cursos")
-    cursos = pg.cursos_do_usuario(uid)
-    if cursos.empty:
-        st.caption("Você ainda não iniciou nenhum curso.")
-    else:
-        tabela(cursos.rename(columns={"curso": "Curso", "categoria": "Categoria", "status": "Situação", "iniciado_em": "Início",
-                                      "concluido_em": "Conclusão", "aulas": "Aulas", "concluidas": "Aulas concluídas",
-                                      "nota_final": "Nota final (%)"}))
 
     st.subheader("🕘 Histórico de aprendizagem")
     hist = pg.historico(uid)

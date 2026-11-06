@@ -2,7 +2,7 @@
 Página do módulo EduAgro AI (5º módulo do menu principal do SafraTech).
 
 Áreas: 1. Tutor Agro Inteligente · 2. Cursos e Trilhas · 3. Biblioteca · 4. Exercícios e Avaliações · 5. Meu Aprendizado.
-A navegação interna usa a chave `edu_secao` (0 a 4).
+A navegação interna usa a chave `edu_secao` (0 a 2).
 """
 from __future__ import annotations
 
@@ -13,10 +13,10 @@ from modules.eduagro_ai import deepseek_client as ds
 from modules.eduagro_ai import prompts
 from modules.eduagro_ai import web_search as ws
 from modules.eduagro_ai.estilo import CSS_EDUAGRO
-from modules.eduagro_ai.paginas import avaliacoes_ui, biblioteca_ui, cursos_ui, progresso_ui, tutor_ui
+from modules.eduagro_ai.paginas import avaliacoes_ui, progresso_ui, tutor_ui
 
-SECOES = ["🤖 Tutor Agro", "📘 Cursos e Trilhas", "📚 Biblioteca", "📝 Exercícios e Avaliações", "📈 Meu Aprendizado"]
-RENDER = [tutor_ui.render, cursos_ui.render, biblioteca_ui.render, avaliacoes_ui.render, progresso_ui.render]
+SECOES = ["🤖 Tutor Agro", "📝 Exercícios e Avaliações", "📈 Meu Aprendizado"]
+RENDER = [tutor_ui.render, avaliacoes_ui.render, progresso_ui.render]
 
 
 def _testar_ia():
@@ -109,7 +109,7 @@ def render() -> None:
     c_titulo.header("EduAgro AI — o tutor inteligente")
     st.markdown('<div class="edu-hero"><span class="edu-selo">Plataforma de ensino · SafraTech</span>'
                 '<h2>Aprenda agronegócio com o conhecimento técnico do SafraTech</h2>'
-                '<p>Tutor inteligente, trilhas de aprendizagem, biblioteca técnica, exercícios com correção e acompanhamento '
+                '<p>Tutor inteligente, exercícios com correção e acompanhamento '
                 'do seu progresso — sempre diferenciando o que vem dos bancos do SafraTech, o que é explicação da IA e o que '
                 'é exemplo hipotético.</p></div>', unsafe_allow_html=True)
 

@@ -94,10 +94,10 @@ def test_eduagro_abre_com_as_cinco_areas(bancos, api):
     app = eduagro()
     assert app.contem("EduAgro AI — o tutor inteligente", "header") and not app.textos("error")
     nav = [w for w in app.widgets if w[2] == "edu_secao"][0]
-    assert nav[3] == [0, 1, 2, 3, 4]
+    assert nav[3] == [0, 1, 2]
     menu = [w for w in app.widgets if w[2] == "nav_agricultura"][0]
     assert menu[3] == [0, 1, 2, 3, 4]
-    for secao in range(5):
+    for secao in range(3):
         app.interagir(MAIN, "edu_secao", secao)
         assert not app.textos("error"), (secao, app.textos("error"))
 
@@ -107,7 +107,7 @@ INGLES = re.compile(r"\b(Soil|Livestock|Language|Settings|Analyze|Download|Repor
 
 
 def test_interface_do_eduagro_em_portugues(bancos, api):
-    for secao in range(5):
+    for secao in range(3):
         app = eduagro(secao)
         rotulos = [str(w[1]) for w in app.widgets] + [t for t in app.textos() if not t.lstrip().startswith("<style")]
         achados = sorted({m.group(0) for t in rotulos for m in [INGLES.search(t)] if m})
@@ -192,14 +192,14 @@ def test_teste_de_conexao_na_barra_lateral(bancos, api):
 
 # ---------------------------------------------------------------- exercícios e progresso
 def test_treino_de_calculo_corrige_e_registra_progresso(bancos, api):
-    app = eduagro(3)
+    app = eduagro(1)
     q = app.session_state["edu_calc_atual"]
     assert q["origem"] == "calculo_banco" and "pecuaria_desempenho_database" in q["justificativa"]
     chave = f"edu_calc_{app.session_state['edu_calc_seq']}"
     app.executar(MAIN, valores={f"{chave}_r0": q["resposta"].split()[0]}, botoes={"✅ Enviar respostas"})
     assert app.contem("Nota", "metric") or any(x[0] == "metric" and "100" in x[2] for x in app.saida)
     assert app.contem("Parabéns", "success")
-    app.interagir(MAIN, "edu_secao", 4)
+    app.interagir(MAIN, "edu_secao", 2)
     assert any(x[0] == "metric" and x[1] == "Exercícios realizados" and x[2] == "1" for x in app.saida)
 
 
@@ -212,7 +212,7 @@ def test_exercicios_gerados_por_ia_com_correcao_e_revisao(bancos, api):
         {"tipo": "verdadeiro_falso", "enunciado": "O GMD é expresso em kg por dia (kg/dia).", "resposta_correta": "Verdadeiro",
          "explicacao": "A unidade do resultado é kg/dia.", "justificativa_tecnica": "[S1]", "referencias": ["S1"],
          "assuntos": ["Unidades"]}]}, ensure_ascii=False))
-    app = eduagro(3, valores={"edu_ia_tema": "ganho médio diário de bovinos", "edu_ia_cat": "Pecuária"})
+    app = eduagro(1, valores={"edu_ia_tema": "ganho médio diário de bovinos", "edu_ia_cat": "Pecuária"})
     app.executar(MAIN, botoes={"🤖 Gerar exercícios"})
     assert not app.textos("error") and app.session_state["edu_ia_questoes"]["questoes"]
     pedido = [c for c in api.chamadas if c["json"] and c["json"].get("response_format")][-1]["json"]["messages"]
@@ -236,40 +236,7 @@ def test_tutor_leva_o_assunto_para_os_exercicios(bancos, api):
     app.executar(MAIN, valores={"edu_chat_input": "Como funciona o rendimento de carcaça?"})
     app.executar(MAIN, botoes={"edu_exercicios_assunto"})
     app.executar(MAIN)
-    assert app.session_state["edu_secao"] == 3 and app.session_state["edu_ia_tema"] == "Como funciona o rendimento de carcaça?"
-
-
-# ---------------------------------------------------------------- cursos e biblioteca
-def test_cursos_catalogo_e_pagina_do_curso(bancos, api):
-    app = eduagro(1)
-    assert sum(1 for w in app.widgets if str(w[2]).startswith("edu_abrir_")) == 22
-    app.executar(MAIN, botoes={"edu_abrir_14"})
-    app.executar(MAIN)
-    assert app.session_state["edu_curso_id"] == 14 and app.contem("Desempenho do rebanho", "subheader")
-    assert app.contem("ainda não tem aulas cadastradas", "info")
-    assert any("[S1]" in t and "pecuaria_" in t for t in app.textos("markdown")), "referências reais do banco no curso"
-
-
-class Arquivo:
-    def __init__(self, nome, dados):
-        self.name, self._d = nome, dados
-
-    def getvalue(self):
-        return self._d
-
-
-def test_biblioteca_recebe_documento_e_tutor_cita_a_pagina(bancos, api):
-    texto = "# Guia de pastagens\n\n" + ("O capim-piatã tem boa produção de forragem na estação chuvosa. " * 40)
-    app = eduagro(2, valores={"edu_bib_arquivo": Arquivo("guia.md", texto.encode()), "edu_bib_titulo": "Guia de pastagens",
-                              "edu_bib_tipo": "Guia de estudo", "edu_bib_categoria": "Pecuária"})
-    app.executar(MAIN, botoes={"Adicionar à biblioteca"})
-    assert app.contem("Documento indexado", "success"), app.textos("error")
-    app.executar(MAIN, valores={"edu_bib_busca": "capim-piatã forragem"})
-    assert any("Guia de pastagens" in t and "p. 1" in t for t in app.textos("markdown"))
-    app.interagir(MAIN, "edu_secao", 0)
-    app.executar(MAIN, valores={"edu_chat_input": "O capim-piatã produz bem na estação chuvosa?"})
-    ultimo = [c for c in api.chamadas if c["json"] and c["json"].get("stream")][-1]["json"]["messages"][-1]["content"]
-    assert "[D1] Documento da biblioteca (Guia de estudo) — Guia de pastagens" in ultimo and "p. 1" in ultimo
+    assert app.session_state["edu_secao"] == 1 and app.session_state["edu_ia_tema"] == "Como funciona o rendimento de carcaça?"
 
 
 def test_eduagro_funciona_sem_bancos(api, monkeypatch):
@@ -279,9 +246,9 @@ def test_eduagro_funciona_sem_bancos(api, monkeypatch):
     for cfg in connections.BANCOS.values():
         monkeypatch.setenv(cfg["env"], "")
     monkeypatch.setattr(connections, "_segredos", {})
-    app = eduagro(3)
+    app = eduagro(1)
     assert app.contem("bancos do SafraTech estão inacessíveis", "warning")
-    app.interagir(MAIN, "edu_secao", 1)
+    app.interagir(MAIN, "edu_secao", 2)
     assert not [e for e in app.textos("error") if "EduAgro" in e]
     app.interagir(MAIN, "edu_secao", 0)
     app.executar(MAIN, valores={"edu_chat_input": "Como calcular o GMD?"})

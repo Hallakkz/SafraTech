@@ -38,7 +38,7 @@ def _pendente(texto: str, modo: str = "pergunta"):
 
 def _ir_para_exercicios(tema: str):
     st.session_state["edu_tema_exercicio"] = tema
-    st.session_state["edu_secao"] = 3
+    st.session_state["edu_secao"] = 1
 
 
 # ------------------------------------------------------------------ interface
@@ -94,11 +94,10 @@ def render(usuario: dict, nivel: str) -> None:
         fontes = list(tutor.FONTES_TUTOR)
         fonte = st.radio("Fonte das respostas", fontes, format_func=tutor.FONTES_TUTOR.get, key="edu_tutor_fonte",
                          index=fontes.index(tutor.fonte_padrao()))
-        area, usar_bib = "todas", True
+        area, usar_bib = "todas", False
         if fonte == "bancos":
             area = st.selectbox("Bancos do SafraTech", list(tutor.AREAS_TUTOR), format_func=tutor.AREAS_TUTOR.get,
                                 key="edu_tutor_area")
-            usar_bib = st.checkbox("Consultar também a Biblioteca", value=True, key="edu_tutor_bib")
         else:
             from modules.eduagro_ai import web_search as ws
             if not ws.carregar_config().disponivel:
@@ -157,7 +156,7 @@ def _processar(pendente: dict, uid: int, nivel: str, area: str, usar_bib: bool, 
             if not cliente.configurado:
                 aviso_erro_ia(IANaoConfigurada(), "responder")
                 return
-            espera = "🔗 Pesquisando na internet…" if fonte == "internet" else "🔎 Consultando os bancos do SafraTech e a Biblioteca…"
+            espera = "🔗 Pesquisando na internet…" if fonte == "internet" else "🔎 Consultando os bancos do SafraTech…"
             with st.spinner(espera):
                 prep = tutor.preparar(texto, nivel, msgs, area=area, usar_bancos=True, usar_biblioteca=usar_bib, modo=modo,
                                       consulta_anterior=ultima_consulta, fonte=fonte)
@@ -167,8 +166,7 @@ def _processar(pendente: dict, uid: int, nivel: str, area: str, usar_bib: bool, 
                 st.caption(f"🔗 {len(prep.busca.da_internet)} página(s) da internet enviadas ao tutor · ✍️ escrevendo a resposta…")
             else:
                 web = f" e {len(prep.busca.da_internet)} página(s) da internet" if prep.busca.da_internet else ""
-                st.caption(f"🔎 {len(prep.busca.do_banco)} registro(s) dos bancos, {len(prep.busca.da_biblioteca)} trecho(s) da "
-                           f"biblioteca{web} enviados ao tutor · ✍️ escrevendo a resposta…")
+                st.caption(f"🔎 {len(prep.busca.do_banco)} registro(s) dos bancos{web} enviados ao tutor · ✍️ escrevendo a resposta…")
             try:
                 resposta = st.write_stream(tutor.responder_stream(cliente, prep))
             except ErroIA as e:

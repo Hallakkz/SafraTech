@@ -15,13 +15,11 @@ AREA_POR_CATEGORIA = {"Agricultura": "agricultura", "Pecuária": "pecuaria", "Ge
 
 
 def render(usuario: dict, nivel: str) -> None:
-    t1, t2, t3 = st.tabs(["🧮 Treino de cálculos (bancos)", "🤖 Exercícios gerados por IA", "🗂️ Questões dos cursos"])
+    t1, t2 = st.tabs(["🧮 Treino de cálculos (bancos)", "🤖 Exercícios gerados por IA"])
     with t1:
         _calculos(usuario)
     with t2:
         _gerados_ia(usuario, nivel)
-    with t3:
-        _questoes_cursos(usuario)
 
 
 # ------------------------------------------------------------------ cálculos com fórmulas dos bancos
@@ -70,10 +68,7 @@ def _gerados_ia(usuario: dict, nivel: str) -> None:
                               key="edu_ia_nivel")
         tipos = st.multiselect("Tipos de questão", list(av.TIPOS), default=["multipla_escolha", "verdadeiro_falso", "pratica"],
                                format_func=av.TIPOS.get, key="edu_ia_tipos")
-        cursos = [c for c in cur.listar_cursos() if c["aulas"]]
-        curso_id = st.selectbox("Usar também as aulas do curso (opcional)", [None, *[c["id"] for c in cursos]],
-                                format_func=lambda i: "—" if i is None else next(c["nome"] for c in cursos if c["id"] == i),
-                                key="edu_ia_curso")
+        curso_id = None
         gerar = st.form_submit_button("🤖 Gerar exercícios")
     if gerar:
         if not tema.strip():

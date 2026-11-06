@@ -39,7 +39,7 @@ def aviso_erro_ia(e: ErroIA, contexto: str = "") -> None:
         st.caption("Variáveis esperadas no arquivo .env: DEEPSEEK_API_KEY, DEEPSEEK_BASE_URL e DEEPSEEK_MODEL.")
     elif e.detalhe:
         st.caption(f"Detalhe técnico: {e.detalhe}")
-    st.caption("Os demais recursos do EduAgro (cursos, biblioteca, exercícios de cálculo e progresso) continuam funcionando.")
+    st.caption("Os demais recursos do EduAgro (exercícios de cálculo e progresso) continuam funcionando.")
 
 
 def referencia_html(r: dict) -> str:
@@ -66,9 +66,9 @@ def mostrar_referencias(refs: list[dict], titulo: str = "📚 Referências consu
                         mostrar_trecho: bool = True) -> None:
     with st.expander(f"{titulo} ({len(refs)})", expanded=expandido):
         if not refs:
-            st.caption("Nenhuma referência dos bancos do SafraTech ou da Biblioteca foi encontrada para este assunto.")
+            st.caption("Nenhuma referência dos bancos do SafraTech foi encontrada para este assunto.")
             return
-        st.caption("Registros reais recuperados dos bancos do SafraTech (S) e da Biblioteca (D) — e, quando os bancos não "
+        st.caption("Registros reais recuperados dos bancos do SafraTech (S) — e, quando os bancos não "
                    "tinham a informação, páginas da internet (W) — entregues à IA. Use-os para conferir as citações da resposta.")
         for r in refs:
             st.markdown(referencia_html(r), unsafe_allow_html=True)
