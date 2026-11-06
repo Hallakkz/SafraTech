@@ -113,9 +113,9 @@ def _complementar_com_internet(busca: kr.ResultadoBusca, consulta: str, cliente_
     if not paginas:
         return ["A busca na internet não encontrou páginas para esta pergunta."]
     if somente_internet:
-        return [f"🔗 Resposta baseada em {len(paginas)} página(s) da internet (fontes externas, não verificadas pelo SafraTech)."]
+        return []
     origem = "Nada encontrado nos bancos do SafraTech — " if busca.sem_fontes_safratech else ""
-    return [f"{origem}🔗 {len(paginas)} página(s) da internet consultada(s) (fontes externas, não verificadas pelo SafraTech)."]
+    return [f"{origem}🔗 {len(paginas)} página(s) da internet consultada(s)."]
 
 
 def responder_stream(cliente: ClienteDeepSeek, prep: Preparacao, temperatura: float = 0.3) -> Iterator[str]:

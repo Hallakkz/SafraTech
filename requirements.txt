@@ -1,8 +1,13 @@
-# Construção e validação dos bancos de pecuária do SafraTech
-psycopg[binary]>=3.1     # instalação nos bancos PostgreSQL (opcional: o script usa o psql se ausente)
-beautifulsoup4>=4.11     # leitura do e-book EPUB
-pypdf>=3.0               # contagem de páginas quando o Poppler não está instalado
-pandas>=1.5              # consultas e tratamento dos CSV/JSON no SafraTech
-pytest>=7.0              # testes automatizados
-# Ferramentas de sistema (necessárias apenas para reextrair o texto dos PDFs; o cache já acompanha o projeto):
-#   Poppler (pdftotext, pdfinfo, pdftoppm) e Tesseract OCR com o idioma 'por'
+# Interface
+streamlit>=1.50
+plotly>=5.18
+# Dados e bancos (PostgreSQL)
+pandas>=2.0
+sqlalchemy>=2.0
+psycopg[binary]>=3.1
+# Relatórios e configuração
+reportlab>=4.0
+python-dotenv>=1.0
+# EduAgro AI (cliente HTTP da DeepSeek e extração de texto dos PDFs da Biblioteca)
+requests>=2.31
+pypdf>=4.0
